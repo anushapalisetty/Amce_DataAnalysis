@@ -1,5 +1,6 @@
 import pandas as pd
 from scipy.stats import chisquare,chi2_contingency,chi2
+from statsmodels.stats.outliers_influence import variance_inflation_factor 
 
 class DataExploration():
     def rel_cat_chisquare(self,df,columns):
@@ -38,3 +39,9 @@ class DataExploration():
         df_chi['Statis_Signf']=stat_sig
         df_chi['Pval_Signf']=pval_sig
         return df_chi
+
+    def calculate_vif(self,X):
+        vif = pd.DataFrame()
+        vif['VIF'] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+        vif['variable'] = X.columns
+        return vif
